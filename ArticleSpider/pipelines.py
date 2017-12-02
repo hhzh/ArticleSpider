@@ -14,14 +14,16 @@ class ArticlespiderPipeline(object):
         self.cursor = self.conn.cursor()
 
     def process_item(self, item, spider):
-        # sql='insert into article(title) VALUE (%s)'
-        # self.cursor.execute(sql,(item["title"]))
+        for field in item.fields:
+            item.setdefault(field, '')
         sql = 'insert into article (title,author,tags,source_url,share_nums,vote_nums,bookmark_nums,comment_nums,create_date,content,article_url,front_image_url) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)'
         print(item['title'], item['author'], item['tags'], item['source_url'], item['share_nums'], item['vote_nums'],
-              item['bookmark_nums'], item['comment_nums'], item['create_date'], item['content'], item['article_url'],item['front_image_url'])
+              item['bookmark_nums'], item['comment_nums'], item['create_date'], item['content'], item['article_url'],
+              item['front_image_url'])
         self.cursor.execute(sql, (
             item['title'], item['author'], item['tags'], item['source_url'], item['share_nums'], item['vote_nums'],
-            item['bookmark_nums'], item['comment_nums'], item['create_date'], item['content'], item['article_url'],item['front_image_url']))
+            item['bookmark_nums'], item['comment_nums'], item['create_date'], item['content'], item['article_url'],
+            item['front_image_url']))
         self.conn.commit()
         return item
 

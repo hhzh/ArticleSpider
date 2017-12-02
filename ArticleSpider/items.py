@@ -26,8 +26,6 @@ def return_value(value):
 
 def get_nums(value):
     nums = 0
-    if not value:
-        return nums
     match_re = re.match(".*?(\d+).*", value)
     if match_re:
         nums = int(match_re.group(1))
