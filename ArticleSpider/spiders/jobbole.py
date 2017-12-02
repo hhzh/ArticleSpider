@@ -71,6 +71,7 @@ class JobboleSpider(scrapy.Spider):
         # item['article_url']=response.url
 
         front_image_url = response.meta.get('front_image_url', '')
+        image_urls = response.meta.get('front_image_url', [])
 
         item_loader = ArticleItemLoader(item=ArticleSpiderItem(), response=response)
         item_loader.add_xpath('title', '//div[@class="entry-header"]/h1/text()')
@@ -85,6 +86,7 @@ class JobboleSpider(scrapy.Spider):
         item_loader.add_xpath('bookmark_nums', '//span[contains(@class,"bookmark-btn")]/h10/text()')
         item_loader.add_xpath('comment_nums', '//a[@href="#article-comment"]/text()')
         item_loader.add_value('front_image_url', front_image_url)
-        item_loader.add_value('article_url',response.url)
+        item_loader.add_value('article_url', response.url)
+        item_loader.add_value('image_urls', image_urls)
         item = item_loader.load_item()
         yield item

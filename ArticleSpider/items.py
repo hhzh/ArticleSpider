@@ -31,6 +31,9 @@ def get_nums(value):
         nums = int(match_re.group(1))
     return nums
 
+def get_list(value):
+    return [value]
+
 
 class ArticleSpiderItem(scrapy.Item):
     title = scrapy.Field(
@@ -46,7 +49,7 @@ class ArticleSpiderItem(scrapy.Item):
     source_url = scrapy.Field()
     content = scrapy.Field()
     share_nums = scrapy.Field(
-        # input_proecessor=MapCompose(get_nums)
+        input_proecessor=MapCompose(get_nums)
     )
     vote_nums = scrapy.Field(
         input_processor=MapCompose(get_nums)
@@ -59,6 +62,10 @@ class ArticleSpiderItem(scrapy.Item):
     )
     front_image_url = scrapy.Field()
     article_url = scrapy.Field()
+    image_urls=scrapy.Field(
+        input_processor=MapCompose(get_list)
+    )
+
 
 
 class ArticleItemLoader(ItemLoader):
